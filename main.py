@@ -5,6 +5,7 @@ import pygame
 from constants import *
 
 def main():
+    pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     screen_fill_counter = 0
     while screen_fill_counter >= 0:
