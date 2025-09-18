@@ -21,6 +21,7 @@ def main():
                 
         pygame.Surface.fill(screen, (0, 0, 0))
         player.draw(screen)
+        player.update(dt)
         screen_fill_counter += 1
         pygame.display.flip()
 
