@@ -3,19 +3,24 @@
 # throughout this file
 import pygame
 from constants import *
+from player import *
 
 def main():
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     screen_fill_counter = 0
-    clock = pygame.time.Clock
+    clock = pygame.time.Clock()
     dt = 0
-    
+    player = Player(x = SCREEN_WIDTH / 2, y = SCREEN_HEIGHT / 2)
+
+
     while screen_fill_counter >= 0:
         for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                         return
+                
         pygame.Surface.fill(screen, (0, 0, 0))
+        player.draw(screen)
         screen_fill_counter += 1
         pygame.display.flip()
 
