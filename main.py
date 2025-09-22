@@ -5,9 +5,9 @@ import sys
 import pygame
 from constants import *
 from player import *
-from asteroidfield import *
-from asteroids_game.shot import *
-from shot import *
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
+from shot import Shot
 
 def main():
     pygame.init()
@@ -24,30 +24,39 @@ def main():
     Player.containers = (updatable, drawable)
     Asteroid.containers = (asteroids, updatable, drawable)
     AsteroidField.containers = (updatable)
-    shots.containers = (shots, updatable, drawable)
+    Shot.containers = (shots, updatable, drawable)
 
-    player = Player(x = SCREEN_WIDTH / 2, y = SCREEN_HEIGHT / 2)
-    asteroidfield = AsteroidField()
+    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+    asteroid_field = AsteroidField()
     
 
 
     while screen_fill_counter >= 0:
-        for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                        return
-                
-        pygame.Surface.fill(screen, (0, 0, 0))
-        for draw in drawable:
-              draw.draw(screen)
-        updatable.update(dt)
-        screen_fill_counter += 1
-        pygame.display.flip()
-        for asteroid in asteroids:
-              if player.collison(asteroid) == True:
-                    print("Game over!")
-                    sys.exit()
+      for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                  return
 
-        dt = clock.tick(60) / 1000
+      updatable.update(dt)      
+
+      for asteroid in asteroids:
+            if player.collison(asteroid) == True:
+                  print("Game over!")
+                  sys.exit()
+                  
+            for bullet in shots:
+                  if asteroid.collison(bullet) == True:
+                       pygame.sprite.Sprite.kill(asteroid)
+                       pygame.sprite.Sprite.kill(bullet)
+
+      pygame.Surface.fill(screen, (0, 0, 0))
+      for draw in drawable:
+            draw.draw(screen)
+        
+      screen_fill_counter += 1
+
+      pygame.display.flip()
+
+      dt = clock.tick(60) / 1000
 
 if __name__ == "__main__":
     main()
